@@ -1,0 +1,122 @@
+definitions:
+  controllers.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  controllers.PolicyInfo:
+    properties:
+      arn:
+        type: string
+      name:
+        type: string
+    type: object
+  controllers.Tag:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+  controllers.UserResponse:
+    properties:
+      arn:
+        type: string
+      passwordLastUsed:
+        type: string
+      path:
+        type: string
+      tags:
+        items:
+          $ref: '#/definitions/controllers.Tag'
+        type: array
+      userID:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/policies:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of IAM policies.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of IAM policies
+          schema:
+            items:
+              $ref: '#/definitions/controllers.PolicyInfo'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Get IAM policies
+      tags:
+      - Policies
+  /api/roles/{maxRoles}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of IAM roles.
+      parameters:
+      - description: Maximum number of roles to retrieve
+        in: path
+        name: maxRoles
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of IAM role names
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Invalid maxRoles value
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: List IAM roles
+      tags:
+      - Roles
+  /api/user/{username}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves user details by username.
+      parameters:
+      - description: Username of the user
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User information
+          schema:
+            $ref: '#/definitions/controllers.UserResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Get user information by username
+      tags:
+      - Users
+swagger: "2.0"
