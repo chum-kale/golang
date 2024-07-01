@@ -1,0 +1,8 @@
+command to create zip file containing executable (it has to be bootsrap)
+
+GOOS=linux GOARCH=amd64 go build -tags lambda.norpc -o bootstrap dispatcher.go
+zip dispatcher.zip bootstrap
+
+follow same for worker functions
+
+Code must contain the function names used in AWS Lmabda console Only.
