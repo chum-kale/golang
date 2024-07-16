@@ -16,6 +16,7 @@ func main() {
 	}
 	close(requests)
 
+	////channel that recieves time.time values at specified intervals
 	limiter := time.Tick(200 * time.Millisecond)
 
 	//blocking on a recieve from limiter channel - limit to 1 req every 200ms
