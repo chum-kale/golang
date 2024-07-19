@@ -27,3 +27,4 @@ func main() {
 //chan<- means the channel can only be sent to (send-only).
 //<-chan means the channel can only be received from (receive-only
 //no arrows (chan typoe) will allow both sending and receving
+//space means passing a value
