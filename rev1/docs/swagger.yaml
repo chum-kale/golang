@@ -1,0 +1,191 @@
+definitions:
+  controllers.CreateUserRequest:
+    properties:
+      group:
+        type: string
+      username:
+        type: string
+    type: object
+  controllers.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  controllers.PolicyInfo:
+    properties:
+      arn:
+        type: string
+      name:
+        type: string
+    type: object
+  controllers.SuccessResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  controllers.UserListResponse:
+    properties:
+      users:
+        items:
+          properties:
+            createDate:
+              type: string
+            username:
+              type: string
+          type: object
+        type: array
+    type: object
+  controllers.UserResponse:
+    properties:
+      arn:
+        description: User's ARN
+        type: string
+      passwordLastUsed:
+        description: Date when the user's password was last used
+        type: string
+      path:
+        description: User's path
+        type: string
+      tags:
+        description: Tags associated with the user (if applicable)
+        items:
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+          type: object
+        type: array
+      userId:
+        description: User's ID
+        type: string
+      username:
+        description: User's username
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/group/{group}/exists:
+    get:
+      operationId: check-group-exists
+      parameters:
+      - description: Group Name
+        in: path
+        name: group
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.SuccessResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Check if a group exists
+  /api/policies:
+    get:
+      operationId: get-policies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.PolicyInfo'
+            type: array
+      summary: Get a list of policies
+  /api/roles/{maxRoles}:
+    get:
+      operationId: list-roles
+      parameters:
+      - description: Maximum number of roles to retrieve
+        in: path
+        name: maxRoles
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: List roles
+  /api/user:
+    post:
+      consumes:
+      - application/json
+      operationId: create-user
+      parameters:
+      - description: Create User Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateUserRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.SuccessResponse'
+      summary: Create a user
+  /api/user/{username}:
+    get:
+      operationId: get-user-by-username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.UserResponse'
+      summary: Get a user by username
+  /api/user/{username}/exists:
+    get:
+      operationId: check-user-exists
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.SuccessResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Check if a user exists
+  /api/users:
+    get:
+      operationId: list-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.UserListResponse'
+            type: array
+      summary: List users
+swagger: "2.0"

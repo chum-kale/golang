@@ -1,0 +1,15 @@
+project-root/
+  ├── controller/
+  │   ├── user_controller.go
+  │   ├── role_controller.go
+  │   ├── policy_controller.go
+  ├── api/
+  │   ├── user_api.go
+  │   ├── role_api.go
+  │   ├── policy_api.go
+  ├── service/
+  │   ├── iam_service.go
+  ├── main.go
+  
+  1) Fix get user info to not create an user if user is not found
+2) make API documentation to swagger i.e for every endpoint move it to swagger so that setting and hitting of API can be deon fro mthere
