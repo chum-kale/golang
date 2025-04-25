@@ -1,0 +1,41 @@
+query history syntax
+
+QUERY_HISTORY(
+      [ END_TIME_RANGE_START => <constant_expr> ]
+      [, END_TIME_RANGE_END => <constant_expr> ]
+      [, RESULT_LIMIT => <num> ]
+      [, INCLUDE_CLIENT_GENERATED_STATEMENT => <boolean_expr> ] )
+
+QUERY_HISTORY_BY_SESSION(
+      [ SESSION_ID => <constant_expr> ]
+      [, END_TIME_RANGE_START => <constant_expr> ]
+      [, END_TIME_RANGE_END => <constant_expr> ]
+      [, RESULT_LIMIT => <num> ]
+      [, INCLUDE_CLIENT_GENERATED_STATEMENT => <boolean_expr> ] )
+
+QUERY_HISTORY_BY_USER(
+      [ USER_NAME => '<string>' ]
+      [, END_TIME_RANGE_START => <constant_expr> ]
+      [, END_TIME_RANGE_END => <constant_expr> ]
+      [, RESULT_LIMIT => <num> ]
+      [, INCLUDE_CLIENT_GENERATED_STATEMENT => <boolean_expr> ] )
+
+QUERY_HISTORY_BY_WAREHOUSE(
+      [ WAREHOUSE_NAME => '<string>' ]
+      [, END_TIME_RANGE_START => <constant_expr> ]
+      [, END_TIME_RANGE_END => <constant_expr> ]
+      [, RESULT_LIMIT => <num> ]
+      [, INCLUDE_CLIENT_GENERATED_STATEMENT => <boolean_expr> ] )
+
+USE DATABASE BIRD_DATA;
+USE SCHEMA INFORMATION_SCHEMA;
+
+SELECT *
+  FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY())
+  ORDER BY start_time DESC;
+
+
+USE DATABASE SNOWFLAKE;
+USE SCHEMA ACCOUNT_USAGE;
+
+SELECT * FROM ACCOUNT_USAGE.QUERY_HISTORY;
